@@ -1,17 +1,20 @@
-# Scenario 1: One-time route cost check
+# Scenario 2: List of route costs to check
+# You have a carrier route list with 100,000 (100K) entries (in arbitrary order) and a list of 1000 phone numbers. How can you operationalize the route cost lookup problem?
+
 
 # You have a carrier route list with 100,000 (100K) entries (in arbitrary order) and a single phone number. How quickly can you find the cost of calling this number?
+phone_num_cost = {}
+with open("route-costs-100.txt", "r") as f:
+    for line in f:
+        (key, val) = line.strip(',')
+        phone_num_cost[int(key)] = val
 
-with open("route-costs-106000.txt", "r") as f:
-    words = f.read().split("\n")
 
 
 
-def search_for_cost():
-    route_num = {'+86153':'0.84', '+449275049':'0.49', '+8130':'0.68'}
-    phone_num = '+81301234567'
+def search_for_cost(dictionary, ):
+
     is_match = False
-    # counter = 0
     prefix = phone_num
     min_prefix_len = 1
 
