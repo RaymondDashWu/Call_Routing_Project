@@ -6,36 +6,30 @@
 phone_num_cost = {}
 with open("route-costs-100.txt", "r") as f:
     for line in f:
-        (key, val) = line.strip(',')
-        phone_num_cost[int(key)] = val
+        (key, val) = line.strip('\n').split(',')
+        phone_num_cost[key] = val
 
 
 
+def search_for_cost(dictionary, phone_num):
 
-def search_for_cost(dictionary, ):
-
-    is_match = False
     prefix = phone_num
     min_prefix_len = 1
 
-# 8130 compared to 81201234567
+    while len(prefix) > min_prefix_len:
 
-while len(prefix) > min_prefix_len:  # O(m) where m is len(phone_num) iterations
-   if prefix in route_num:  # O(l)
-       print(phone_num, route_num[prefix])
-       break
-   else:
-       # counter = len(phone_num) - 1
-       prefix = prefix[:-1]
+        if prefix in dictionary: # O(m) where m is len(phone_num) iterations
+            return (phone_num, dictionary[prefix]) # O(l)
+        else:
+           prefix = prefix[:-1]
 
-
-# Provide full  phone # with route
+def main():
+    phone_num = '+449916707'
+    print(search_for_cost(phone_num_cost, phone_num))
 
 
 
-    # """return the index of item in sorted array or None if item is not found"""
-    # # implement binary_search_iterative and binary_search_recursive below, then
-    # # change this to call your implementation to verify it passes all tests
-    # array.sort()
-    # # return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+
+if __name__ == "__main__":
+    main()
+    
