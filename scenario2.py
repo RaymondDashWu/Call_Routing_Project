@@ -35,6 +35,7 @@ def search_for_cost(dictionary, number):
     min_prefix_len = 1
     while len(prefix) > min_prefix_len:
         if prefix in dictionary: # O(m) where m is len(phone_num) iterations
+            # TODO: Find lowest price for numbers
             result = '{}, {}\n'.format(number, dictionary[prefix])
             return result # O(l)
         # if prefix not in dictionary:
