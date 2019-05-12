@@ -8,7 +8,7 @@ start_read = time.time()
 phone_num_cost = {}
 cell_number_list = {}
 
-with open("route-costs-10000000.txt", "r") as f:
+with open("route-costs-106000.txt", "r") as f:
     for line in f:
         (key, val) = line.strip('\n').split(',')
         phone_num_cost[key] = val
