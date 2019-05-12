@@ -12,7 +12,7 @@ with open("route-costs-106000.txt", "r") as f:
         (key, val) = line.strip('\n').split(',')
         phone_num_cost[key] = val
 
-with open("phone-numbers-10000.txt", "r") as f:
+with open("phone-numbers-1000.txt", "r") as f:
     for line in f:
         (key, val) = line.split('\n')
         cell_number_list[key] = val
