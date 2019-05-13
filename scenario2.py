@@ -19,7 +19,13 @@ cell_number_list = {}
 with open("route-costs-106000.txt", "r") as f:
     for line in f:
         (key, val) = line.strip('\n').split(',')
-        phone_num_cost[key] = val
+        if key in phone_num_cost:
+            if val < phone_num_cost[key]:
+                phone_num_cost[key] = val
+            else:
+                pass
+        else:
+            phone_num_cost[key] = val
 
 # Importing all the phone numbers we need to find costs for
 # Time Complexity: O(n) to iterate through all lines in phone-numbers file

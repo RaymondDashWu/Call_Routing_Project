@@ -25,7 +25,13 @@ for route in all_route_costs:
     with open(route, "r") as f:
         for line in f:
             (key, val) = line.strip('\n').split(',')
-            phone_num_cost[key] = val
+            if key in phone_num_cost:
+                if val < phone_num_cost[key]:
+                    phone_num_cost[key] = val
+                else:
+                    pass
+            else:
+                phone_num_cost[key] = val
 
 # Importing all the phone numbers we need to find costs for
 # Time Complexity: O(n*m) to iterate through m phone number files with each one containing
