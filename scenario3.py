@@ -71,7 +71,7 @@ def anotate_data(phone_num_list, dictionary):
 def main():
     print(anotate_data(cell_number_list, phone_num_cost))
     end = time.time()
-    print(end-start)
+    print("total time to run:", end-start)
     print("time to read:", end_read - start_read)
 
     # Code from Edwin Cloud https://github.com/edwintcloud
