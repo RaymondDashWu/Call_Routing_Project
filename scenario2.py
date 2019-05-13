@@ -1,9 +1,15 @@
 # Scenario 2: List of route costs to check
 # You have a carrier route list with 100,000 (100K) entries (in arbitrary order) and a list of 1000 phone numbers. How can you operationalize the route cost lookup problem?
-import time
 
+# Imports for benchmarking
+import time
+import resource
+import platform
+
+# Benchmark times to finish whole program and time to read all files
 start = time.time()
 start_read = time.time()
+
 phone_num_cost = {}
 cell_number_list = {}
 
@@ -38,8 +44,6 @@ def search_for_cost(dictionary, number):
             # TODO: Find lowest price for numbers
             result = '{}, {}\n'.format(number, dictionary[prefix])
             return result # O(l)
-        # if prefix not in dictionary:
-        #     return '{}, {}\n'.format(number, 0)
         else:
            prefix = prefix[:-1]
     if prefix not in dictionary:
@@ -62,6 +66,20 @@ def main():
     end = time.time()
     print(end-start)
     print("time to read:", end_read - start_read)
+
+    # Code from Edwin Cloud https://github.com/edwintcloud
+    # get memory usage
+    usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
+    # linux returns kb and macOS returns bytes, here we convert both to mb
+    if platform.system() == 'Linux':
+	# convert kb to mb and round to 2 digits
+	    usage = round(usage/float(1 << 10), 2)
+    else:
+	# convert bytes to mb and round to 2 digits
+	    usage = round(usage/float(1 << 20), 2)
+    # print memory usage
+    print("Memory Usage: {} mb.".format(usage))
 
 if __name__ == "__main__":
     main()

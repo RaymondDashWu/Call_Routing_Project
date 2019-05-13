@@ -1,11 +1,17 @@
 # Scenario 3: Multiple long carrier route lists
 # You have 5 carrier route lists, each with 10,000,000 (10M) entries (in arbitrary order) and a list of 10,000 phone numbers. How can you speed up your route cost lookup solution to handle this larger dataset?
-import time
 import glob
 import os
 
+# Imports for benchmarking
+import time
+import resource
+import platform
+
+# Benchmark times to finish whole program and time to read all files
 start = time.time()
 start_read = time.time()
+
 phone_num_cost = {}
 cell_number_list = {}
 
@@ -67,6 +73,20 @@ def main():
     end = time.time()
     print(end-start)
     print("time to read:", end_read - start_read)
+
+    # Code from Edwin Cloud https://github.com/edwintcloud
+    # get memory usage
+    usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
+    # linux returns kb and macOS returns bytes, here we convert both to mb
+    if platform.system() == 'Linux':
+	# convert kb to mb and round to 2 digits
+	    usage = round(usage/float(1 << 10), 2)
+    else:
+	# convert bytes to mb and round to 2 digits
+	    usage = round(usage/float(1 << 20), 2)
+    # print memory usage
+    print("Memory Usage: {} mb.".format(usage))
 
 if __name__ == "__main__":
     main()
