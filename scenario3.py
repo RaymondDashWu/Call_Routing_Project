@@ -11,7 +11,7 @@ cell_number_list = {}
 
 all_route_costs = glob.glob(os.path.join('', "route-costs-*.txt"))
 
-# print("all_route_costs", all_route_costs)
+print("all_route_costs", all_route_costs)
 for route in all_route_costs:
     with open(route, "r") as f:
         for line in f:
@@ -28,9 +28,10 @@ end_read = time.time()
 def search_for_cost(dictionary, number):
     prefix = number
     min_prefix_len = 1
+
     while len(prefix) > min_prefix_len:
-        if prefix in dictionary: # O(m) where m is len(phone_num) iterations
-            result = '{}, {}\n'.format(number, dictionary[prefix])
+        if prefix in dictionary: # O(m) where m is len(phone_num)
+            result = '{}, {}\n'.format(number, min(float(dictionary[prefix]).values()))
             return result # O(l)
         # if prefix not in dictionary:
         #     return '{}, {}\n'.format(number, 0)

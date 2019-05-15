@@ -10,7 +10,7 @@ cell_number_list = {}
 with open("route-costs-106000.txt", "r") as f:
     for line in f:
         (key, val) = line.strip('\n').split(',')
-        phone_num_cost[key] = val
+        phone_num_cost[key] = float(val)
 
 with open("phone-numbers-1000.txt", "r") as f:
     for line in f:
@@ -22,16 +22,25 @@ end_read = time.time()
 def search_for_cost(dictionary, number):
     prefix = number
     min_prefix_len = 1
+    list = []
     while len(prefix) > min_prefix_len:
         if prefix in dictionary: # O(m) where m is len(phone_num) iterations
-            result = '{}, {}\n'.format(number, dictionary[prefix])
-            return result # O(l)
+            # print(min(dictionary.get(prefix))
+            # list.append(dictionary.get(prefix))
+            # print(list)
+            # mid = min(list)
+            # print('mid => ', mid)
+            # # result = '{}, {}\n'.format(number, mid)
+            # # print(result)
+            break
+            # return result # O(l)
         # if prefix not in dictionary:
         #     return '{}, {}\n'.format(number, 0)
         else:
            prefix = prefix[:-1]
     if prefix not in dictionary:
         return '{}, {}\n'.format(number, 0)
+    print(list)
 
 def anotate_data(phone_num_list, dictionary):
     file = open('route-costs-2.txt', 'w+')
