@@ -1,17 +1,39 @@
 # Scenario 2: List of route costs to check
 # You have a carrier route list with 100,000 (100K) entries (in arbitrary order) and a list of 1000 phone numbers. How can you operationalize the route cost lookup problem?
-import time
 
+# Imports for benchmarking
+import time
+import resource
+import platform
+
+# Benchmark times to finish whole program and time to read all files
 start = time.time()
 start_read = time.time()
+
 phone_num_cost = {}
 cell_number_list = {}
 
+# Importing all routes and associated costs and storing them into memory
+# Time Complexity: O(n) to iterate through all lines in route costs file
+# Space Complexity: O(n) to store all all values in route costs file
 with open("route-costs-106000.txt", "r") as f:
     for line in f:
         (key, val) = line.strip('\n').split(',')
+<<<<<<< HEAD
         phone_num_cost[key] = float(val)
+=======
+        if key in phone_num_cost:
+            if val < phone_num_cost[key]:
+                phone_num_cost[key] = val
+            else:
+                pass
+        else:
+            phone_num_cost[key] = val
+>>>>>>> 17e231be4250ae58702627e736f3e9494bd5dd1a
 
+# Importing all the phone numbers we need to find costs for
+# Time Complexity: O(n) to iterate through all lines in phone-numbers file
+# Space Complexity: O(n) to store all n values in phone number file
 with open("phone-numbers-1000.txt", "r") as f:
     for line in f:
         (key, val) = line.split('\n')
@@ -20,11 +42,17 @@ with open("phone-numbers-1000.txt", "r") as f:
 end_read = time.time()
 
 def search_for_cost(dictionary, number):
+    """Searches for the given phone number and returns associated cost
+    Format ex: +1200, .03
+    Time Complexity: O(m) where m is the length of the phone number
+    Space Complexity: O(l) to store the length of the phone number. Decreases until
+    a match is found"""
     prefix = number
     min_prefix_len = 1
     list = []
     while len(prefix) > min_prefix_len:
         if prefix in dictionary: # O(m) where m is len(phone_num) iterations
+<<<<<<< HEAD
             # print(min(dictionary.get(prefix))
             # list.append(dictionary.get(prefix))
             # print(list)
@@ -36,6 +64,11 @@ def search_for_cost(dictionary, number):
             # return result # O(l)
         # if prefix not in dictionary:
         #     return '{}, {}\n'.format(number, 0)
+=======
+            # TODO: Find lowest price for numbers
+            result = '{}, {}\n'.format(number, dictionary[prefix])
+            return result # O(l)
+>>>>>>> 17e231be4250ae58702627e736f3e9494bd5dd1a
         else:
            prefix = prefix[:-1]
     if prefix not in dictionary:
@@ -43,6 +76,9 @@ def search_for_cost(dictionary, number):
     print(list)
 
 def anotate_data(phone_num_list, dictionary):
+    """Writes the phone number and associated cost to a file
+    Time Complexity: O(n) to iterate through all keys in phone_num_list dictionary
+    Space Complexity: O(1) this function does not store anything in memory."""
     file = open('route-costs-2.txt', 'w+')
     for number in phone_num_list.keys():
         data_cost = search_for_cost(dictionary, number)
@@ -54,8 +90,22 @@ def anotate_data(phone_num_list, dictionary):
 def main():
     print(anotate_data(cell_number_list, phone_num_cost))
     end = time.time()
-    print(end-start)
+    print("total time to run:", end-start)
     print("time to read:", end_read - start_read)
+
+    # Code from Edwin Cloud https://github.com/edwintcloud
+    # get memory usage
+    usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
+    # linux returns kb and macOS returns bytes, here we convert both to mb
+    if platform.system() == 'Linux':
+	# convert kb to mb and round to 2 digits
+	    usage = round(usage/float(1 << 10), 2)
+    else:
+	# convert bytes to mb and round to 2 digits
+	    usage = round(usage/float(1 << 20), 2)
+    # print memory usage
+    print("Memory Usage: {} mb.".format(usage))
 
 if __name__ == "__main__":
     main()
